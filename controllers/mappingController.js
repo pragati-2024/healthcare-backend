@@ -79,7 +79,10 @@ const getMappings = async (req, res) => {
             include: [
                 {
                     model: Patient,
-                    attributes: ["id", "name"]
+                    attributes: ["id", "name"],
+                    where: {
+                        userId: req.user.id
+                    }
                 },
                 {
                     model: Doctor,

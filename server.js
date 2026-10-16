@@ -12,14 +12,13 @@ const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const mappingRoutes = require("./routes/mappingRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
-
+const errorMiddleware = require("./middleware/errorMiddleware");
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Home route
 app.get("/", (req, res) => {
     res.status(200).json({
@@ -40,6 +39,8 @@ app.use((req, res) => {
         message: "API route not found"
     });
 });
+
+app.use(errorMiddleware);
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -9,17 +9,31 @@ const {
 } = require("../controllers/doctorController");
 
 const protect = require("../middleware/authMiddleware");
-
+const validateRequest = require("../middleware/validateRequest");
+const {
+    createDoctorValidator
+} = require("../validators/doctorValidator");
 const router = express.Router();
-
-router.post("/", protect, createDoctor);
 
 router.get("/", protect, getDoctors);
 
 router.get("/:id", protect, getDoctorById);
 
-router.put("/:id", protect, updateDoctor);
-
 router.delete("/:id", protect, deleteDoctor);
 
+router.post(
+    "/",
+    protect,
+    createDoctorValidator,
+    validateRequest,
+    createDoctor
+);
+
+router.put(
+    "/:id",
+    protect,
+    createDoctorValidator,
+    validateRequest,
+    updateDoctor
+);
 module.exports = router;

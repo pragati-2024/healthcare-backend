@@ -6,12 +6,27 @@ const {
 } = require("../controllers/authController");
 
 const protect = require("../middleware/authMiddleware");
+const validateRequest = require("../middleware/validateRequest");
+const {
+    registerValidator,
+    loginValidator
+} = require("../validators/authValidator");
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post(
+    "/register",
+    registerValidator,
+    validateRequest,
+    registerUser
+);
 
-router.post("/login", loginUser);
+router.post(
+    "/login",
+    loginValidator,
+    validateRequest,
+    loginUser
+);
 
 router.get("/profile", protect, (req, res) => {
     res.json({
